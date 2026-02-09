@@ -17,16 +17,16 @@ Route::get('/user', function (Request $request) {
 Route::apiResource('tickets', TicketController::class);
 
 // Enums
-Route::get('/tickets/statuses', function () {
-    return ApiResponse::success([
-        'success' => true,
-        'data' => TicketStatus::labels()
-    ]);
+Route::get('/statuses', function () {
+    return ApiResponse::success(
+        TicketStatus::labels(),
+        'Statuses fetched successfully'
+    );
 });
 
-Route::get('/tickets/priorities', function () {
-    return ApiResponse::success([
-        'success' => true,
-        'data' => TicketPriority::labels()
-    ]);
+Route::get('/priorities', function () {
+    return ApiResponse::success(
+        TicketPriority::labels(),
+        'Priorities fetched successfully'
+    );
 });

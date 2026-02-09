@@ -51,16 +51,15 @@ class TicketController extends Controller
         $tickets = $query->paginate($perPage);
 
         return ApiResponse::success([
-            'success' => true,
-            'data' => TicketResource::collection($tickets),
+            'items' => TicketResource::collection($tickets),
             'meta' => [
                 'current_page' => $tickets->currentPage(),
                 'per_page' => $tickets->perPage(),
                 'total' => $tickets->total(),
                 'last_page' => $tickets->lastPage(),
             ],
-            'message' => null
-        ]);
+        ], 'Tickets fetched successfully');
+
     }
 
 
@@ -74,13 +73,13 @@ class TicketController extends Controller
         ]);
 
         $ticket = Ticket::create($validated);
-        return ApiResponse::success(ApiResponse::success(new TicketResource($ticket), 'Ticket created'), 201);
+        return ApiResponse::success(new TicketResource($ticket), 'Ticket created', 201);
     }
 
     // Show
     public function show(Ticket $ticket)
     {
-        return ApiResponse::success(ApiResponse::success(new TicketResource($ticket)));
+        return ApiResponse::success(new TicketResource($ticket), 'Ticket fetched successfully');
     }
 
     // Edit
@@ -93,13 +92,13 @@ class TicketController extends Controller
         ]);
 
         $ticket->update($validated);
-        return ApiResponse::success(ApiResponse::success(new TicketResource($ticket), 'Ticket updated'));
+        return ApiResponse::success(new TicketResource($ticket), 'Ticket updated');
     }
 
     // Delete
     public function destroy(Ticket $ticket)
     {
         $ticket->delete();
-        return ApiResponse::success(ApiResponse::success(null, 'Ticket deleted'));
+        return ApiResponse::success(null, 'Ticket deleted');
     }
 }
